@@ -1,4 +1,6 @@
 import com.jogamp.opengl.util.FPSAnimator;
+import model.noise.INoiseGenerator;
+import model.noise.PerlinNoiseGenerator;
 
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
@@ -11,6 +13,7 @@ import java.awt.event.WindowEvent;
 public class Main {
 
     public static void main(String[] args) {
+
         GLProfile glprofile = GLProfile.getDefault();
         GLCapabilities glcapabilities = new GLCapabilities(glprofile);
         final GLCanvas glcanvas = new GLCanvas(glcapabilities);
