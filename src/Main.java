@@ -1,6 +1,5 @@
 import com.jogamp.opengl.util.FPSAnimator;
-import model.noise.INoiseGenerator;
-import model.noise.PerlinNoiseGenerator;
+import ui.CameraControls;
 
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
@@ -17,6 +16,8 @@ public class Main {
         GLProfile glprofile = GLProfile.getDefault();
         GLCapabilities glcapabilities = new GLCapabilities(glprofile);
         final GLCanvas glcanvas = new GLCanvas(glcapabilities);
+
+        CameraControls cameraControls = new CameraControls();
 
         glcanvas.addGLEventListener(new EventListener());
 

@@ -1,7 +1,8 @@
 import model.Mesh;
 import model.noise.INoiseGenerator;
 import model.noise.PerlinNoiseGenerator;
-import model.render.MeshRenderer;
+import render.MeshRenderer;
+import transforms.Camera;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
@@ -12,11 +13,7 @@ public class EventListener implements GLEventListener {
 
     private float rtri = 0.0f;
     private GLU glu = new GLU();
-    float[] cameraPos = {
-            0.0f,
-            0.0f,
-            0.0f
-    };
+
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
         final GL2 gl = drawable.getGL().getGL2();
@@ -65,8 +62,8 @@ public class EventListener implements GLEventListener {
         // Clear The Screen And The Depth Buffer
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity(); // Reset The View
-        gl.glTranslatef(-cameraPos[0], -cameraPos[1], -cameraPos[2]); // Move the triangle
         gl.glRotatef(rtri, 0.0f, 1.0f, 0.0f);
+        gl.glTranslatef(0f, 1f, 0f);
         gl.glBegin(GL2.GL_TRIANGLES);
 
         meshRenderer.render(mesh, gl);
@@ -75,7 +72,6 @@ public class EventListener implements GLEventListener {
 
         gl.glFlush();
         rtri += 0.2f;
-        cameraPos[0] += 0.02f;
     }
 
 }

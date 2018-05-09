@@ -1,4 +1,4 @@
-package model.render;
+package render;
 
 import model.Mesh;
 
