@@ -25,11 +25,12 @@ public class Main {
 
         TreeMap<Double, Color> colors = new TreeMap<>();
         colors.put(0.0, Color.BLUE);
-        colors.put(0.35, Color.YELLOW);
-        colors.put(0.4, Color.decode("#823600"));
-        colors.put(0.55, Color.decode("#4c4743"));
-        colors.put(0.70, Color.decode("#CCCCCC"));
-        colors.put(0.80, Color.decode("#EEEEFF"));
+        colors.put(0.3, Color.YELLOW);
+        colors.put(0.45, Color.decode("#26c115"));
+        colors.put(0.55, Color.decode("#823600"));
+        colors.put(0.65, Color.decode("#4c4743"));
+        colors.put(0.80, Color.decode("#CCCCCC"));
+        colors.put(0.90, Color.decode("#EEEEFF"));
 
 
         int seed = (int) (Math.random() * 100000);

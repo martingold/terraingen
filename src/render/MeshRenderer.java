@@ -19,7 +19,7 @@ public class MeshRenderer {
     public void render(Mesh mesh, GL2 gl) {
         for (int x = 0; x < mesh.getWidth() - 1; x++) {
             for (int y = 0; y < mesh.getHeight() - 1; y++) {
-                Color c = getColor(mesh.getSingleHeightNormalized(x, y));
+                Color c = getColor(mesh.getSingleHeightNormalized(x + 1, y));
                 gl.glColor3f(
                         c.getRed() / 255.0f,
                         c.getGreen() / 255.0f,
@@ -29,6 +29,7 @@ public class MeshRenderer {
                 gl.glVertex3f(x, y, (float) mesh.getSingleHeight(x, y));
                 gl.glVertex3f(x + 1, y, (float) mesh.getSingleHeight(x + 1, y));
                 gl.glVertex3f(x + 1, y + 1, (float) mesh.getSingleHeight(x + 1, y + 1));
+
                 // Lower triangle
                 gl.glVertex3f(x, y, (float) mesh.getSingleHeight(x, y));
                 gl.glVertex3f(x, y + 1, (float) mesh.getSingleHeight(x, y + 1));
@@ -36,6 +37,23 @@ public class MeshRenderer {
 
             }
         }
+
+        gl.glColor3f(
+                21 / 255.0f,
+                104 / 255.0f,
+                193 / 255.0f
+        );
+
+        float waterSize = 1000;
+        float waterHeight = 0.1f * (float) mesh.getAmplitude();
+
+        gl.glVertex3f(-waterSize, -waterSize, waterHeight);
+        gl.glVertex3f(waterSize, -waterSize, waterHeight);
+        gl.glVertex3f(waterSize, waterSize, waterHeight);
+
+        gl.glVertex3f(-waterSize, -waterSize, waterHeight);
+        gl.glVertex3f(-waterSize, waterSize, waterHeight);
+        gl.glVertex3f(waterSize, waterSize, waterHeight);
     }
 
     private Color getColor(double h) {

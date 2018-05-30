@@ -26,7 +26,6 @@ public class EventListener implements GLEventListener, CameraListener {
         this.mesh = mesh;
     }
 
-
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
         final GL2 gl = drawable.getGL().getGL2();
         if (height <= 0)
@@ -72,10 +71,9 @@ public class EventListener implements GLEventListener, CameraListener {
         gl.glLoadIdentity(); // Reset The View
         gl.glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
         gl.glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-        gl.glRotatef(-(float) Math.toDegrees(camera.getZenith()), 0.0f, 1.0f, 0.0f);
+        gl.glRotatef((float) Math.toDegrees(camera.getZenith()), 0.0f, 1.0f, 0.0f);
         gl.glRotatef(-(float) Math.toDegrees(camera.getAzimuth()), 0.0f, 0.0f, 1.0f);
 
-        gl.glTranslatef(0f, 1f, 0f);
         gl.glTranslatef(
                 (float) camera.getPosition().getX(),
                 (float) camera.getPosition().getY(),

@@ -57,7 +57,7 @@ public class CameraControls implements KeyListener, MouseListener, MouseMotionLi
         if(azimuth < 0) azimuth = Math.PI * 2 + azimuth;
         if(azimuth > Math.PI * 2) azimuth -= Math.PI * 2;
 
-        double zenith = camera.getZenith() + Math.atan(offsetY / 100.0);
+        double zenith = camera.getZenith() - Math.atan(offsetY / 100.0);
         if(zenith < 0) zenith = Math.PI * 2 + zenith;
         if(zenith > Math.PI * 2) zenith -= Math.PI * 2;
 
@@ -85,10 +85,10 @@ public class CameraControls implements KeyListener, MouseListener, MouseMotionLi
                 camera = camera.right(1);
                 break;
             case KeyEvent.VK_W:
-                camera = camera.forward(1);
+                camera = camera.backward(1);
                 break;
             case KeyEvent.VK_S:
-                camera = camera.backward(1);
+                camera = camera.forward(1);
                 break;
         }
         cameraListener.onCameraUpdate(camera);
