@@ -1,5 +1,6 @@
 package ui;
 
+import listener.CameraListener;
 import transforms.Camera;
 
 import java.awt.event.*;
@@ -11,13 +12,16 @@ public class CameraControls implements KeyListener, MouseListener, MouseMotionLi
     private long timeDiff = System.currentTimeMillis();
 
     private Camera camera;
+    private CameraListener cameraListener;
 
-    public CameraControls() {
+    public CameraControls(CameraListener cameraListener) {
+        this.cameraListener = cameraListener;
         camera = new Camera();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
     }
 
     @Override
@@ -29,6 +33,7 @@ public class CameraControls implements KeyListener, MouseListener, MouseMotionLi
 
     @Override
     public void mouseReleased(MouseEvent e) {
+
     }
 
     @Override
@@ -48,10 +53,18 @@ public class CameraControls implements KeyListener, MouseListener, MouseMotionLi
         timeDiff = System.currentTimeMillis();
         int offsetX = mOffsetX - e.getX();
         int offsetY = mOffsetY - e.getY();
-        camera = camera.withAzimuth(camera.getAzimuth() + Math.atan(offsetX / 200))
-                .withZenith(camera.getZenith() - Math.atan(offsetY / 200));
+        double azimuth = camera.getAzimuth() - Math.atan(offsetX / 100.0);
+        if(azimuth < 0) azimuth = Math.PI * 2 + azimuth;
+        if(azimuth > Math.PI * 2) azimuth -= Math.PI * 2;
+
+        double zenith = camera.getZenith() + Math.atan(offsetY / 100.0);
+        if(zenith < 0) zenith = Math.PI * 2 + zenith;
+        if(zenith > Math.PI * 2) zenith -= Math.PI * 2;
+
+        camera = camera.withAzimuth(azimuth).withZenith(zenith);
         mOffsetX = e.getX();
         mOffsetY = e.getY();
+        cameraListener.onCameraUpdate(camera);
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -78,6 +91,7 @@ public class CameraControls implements KeyListener, MouseListener, MouseMotionLi
                 camera = camera.backward(1);
                 break;
         }
+        cameraListener.onCameraUpdate(camera);
     }
 
     @Override

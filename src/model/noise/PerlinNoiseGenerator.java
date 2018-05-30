@@ -4,7 +4,10 @@ public class PerlinNoiseGenerator implements INoiseGenerator {
 
     static final int p[] = new int[512];
 
-    public PerlinNoiseGenerator() {
+    private int seed = 0;
+
+    public PerlinNoiseGenerator(int seed) {
+        this.seed = seed;
         int[] permutation = {151, 160, 137, 91, 90, 15,
                 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23,
                 190, 6, 148, 247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33,
@@ -24,10 +27,14 @@ public class PerlinNoiseGenerator implements INoiseGenerator {
         }
     }
 
+    public void setSeed(int seed) {
+        this.seed = seed;
+    }
+
     public double generate(double x, double y) {
         double z = 0;
-        int X = (int) Math.floor(x) & 255;
-        int Y = (int) Math.floor(y) & 255;
+        int X = (int) Math.floor(x + seed) & 255;
+        int Y = (int) Math.floor(y + seed) & 255;
         int Z = (int) Math.floor(z) & 255;
         x -= Math.floor(x);
         y -= Math.floor(y);
