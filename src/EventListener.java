@@ -1,29 +1,36 @@
+import com.jogamp.opengl.util.awt.TextRenderer;
 import listener.CameraListener;
+import listener.ParameterListener;
 import model.Mesh;
-import model.noise.INoiseGenerator;
-import model.noise.PerlinNoiseGenerator;
+import model.MeshGenerator;
 import render.MeshRenderer;
 import transforms.Camera;
+import ui.ControlOption;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class EventListener implements GLEventListener, CameraListener {
+public class EventListener implements GLEventListener, CameraListener, ParameterListener {
 
     private final MeshRenderer meshRenderer;
     private Mesh mesh;
+    private MeshGenerator meshGenerator;
     private GLU glu = new GLU();
     private Camera camera = new Camera();
+    private TextRenderer textRenderer;
+    private List<ControlOption> controls;
 
-    public EventListener(MeshRenderer meshRenderer, Mesh mesh) {
+    public EventListener(MeshRenderer meshRenderer, Mesh mesh, MeshGenerator meshGenerator) {
+        this.textRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 80));
         this.meshRenderer = meshRenderer;
         this.mesh = mesh;
-    }
-
-    public void setMesh(Mesh mesh) {
-        this.mesh = mesh;
+        this.meshGenerator = meshGenerator;
+        this.controls = new ArrayList<>();
     }
 
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -80,7 +87,6 @@ public class EventListener implements GLEventListener, CameraListener {
                 (float) camera.getPosition().getZ()
         );
 
-
         gl.glBegin(GL2.GL_TRIANGLES);
         meshRenderer.render(mesh, gl);
         gl.glEnd();
@@ -91,5 +97,11 @@ public class EventListener implements GLEventListener, CameraListener {
     @Override
     public void onCameraUpdate(Camera camera) {
         this.camera = camera;
+    }
+
+    @Override
+    public void onParameterUpdate(List<ControlOption> controls) {
+        this.controls = controls;
+        this.mesh = meshGenerator.generate(controls);
     }
 }

@@ -18,7 +18,7 @@ public class Mesh {
         this.height = height;
         this.width = width;
         this.amplitude = amplitude;
-        heights = new ArrayList<Double>();
+        heights = new ArrayList<>();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < height; j++) {
                 double h = noiseGenerator.generate(
@@ -68,7 +68,21 @@ public class Mesh {
         for(int i = 0; i < heights.size(); i++) {
             heights.set(i, ((heights.get(i) - min) / (max - min)) - 0.5);
         }
+    }
 
+    public void islandize(float a, float b, float c) {
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < width; y++) {
+                double h = heights.get(y + x * width);
+                double d = (2 * Math.max(
+                        Math.abs(x / (double) width - 0.5) * 2.0,
+                        Math.abs(y / (double) height - 0.5) * 2.0
+                ));
+                h = h + a - b * Math.pow(d, c);
+                heights.set(y + x * width, -h);
+            }
+        }
+        normalize();
     }
 
 }
