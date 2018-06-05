@@ -45,7 +45,7 @@ public class MeshRenderer {
         );
 
         float waterSize = 1000;
-        float waterHeight = 0.1f * (float) mesh.getAmplitude();
+        float waterHeight = 0.15f * (float) mesh.getAmplitude();
 
         gl.glVertex3f(-waterSize, -waterSize, waterHeight);
         gl.glVertex3f(waterSize, -waterSize, waterHeight);

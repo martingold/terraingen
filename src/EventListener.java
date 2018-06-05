@@ -11,25 +11,20 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventListener implements GLEventListener, CameraListener, ParameterListener {
+public class EventListener implements GLEventListener, CameraListener {
 
     private final MeshRenderer meshRenderer;
     private Mesh mesh;
-    private MeshGenerator meshGenerator;
     private GLU glu = new GLU();
     private Camera camera = new Camera();
-    private TextRenderer textRenderer;
     private List<ControlOption> controls;
 
-    public EventListener(MeshRenderer meshRenderer, Mesh mesh, MeshGenerator meshGenerator) {
-        this.textRenderer = new TextRenderer(new Font("SansSerif", Font.PLAIN, 80));
+    public EventListener(MeshRenderer meshRenderer, Mesh mesh) {
         this.meshRenderer = meshRenderer;
         this.mesh = mesh;
-        this.meshGenerator = meshGenerator;
         this.controls = new ArrayList<>();
     }
 
@@ -99,9 +94,7 @@ public class EventListener implements GLEventListener, CameraListener, Parameter
         this.camera = camera;
     }
 
-    @Override
-    public void onParameterUpdate(List<ControlOption> controls) {
-        this.controls = controls;
-        this.mesh = meshGenerator.generate(controls);
+    public void setMesh(Mesh mesh) {
+        this.mesh = mesh;
     }
 }

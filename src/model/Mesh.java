@@ -70,7 +70,7 @@ public class Mesh {
         }
     }
 
-    public void islandize(float a, float b, float c) {
+    public void islandize(float b, float c) {
         for(int x = 0; x < width; x++) {
             for(int y = 0; y < width; y++) {
                 double h = heights.get(y + x * width);
@@ -78,7 +78,7 @@ public class Mesh {
                         Math.abs(x / (double) width - 0.5) * 2.0,
                         Math.abs(y / (double) height - 0.5) * 2.0
                 ));
-                h = h + a - b * Math.pow(d, c);
+                h -= b * Math.pow(d, c);
                 heights.set(y + x * width, -h);
             }
         }

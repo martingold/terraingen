@@ -1,4 +1,5 @@
 import com.jogamp.opengl.util.FPSAnimator;
+import listener.ParameterListener;
 import model.MeshGenerator;
 import model.noise.INoiseGenerator;
 import model.noise.PerlinNoiseGenerator;
@@ -11,14 +12,17 @@ import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-public class TerrainGen {
+public class TerrainGen implements ParameterListener {
+
+    private MeshGenerator meshGenerator;
+    private EventListener ev;
+    private List<ControlOption> controls;
 
     public TerrainGen() {
         GLProfile glprofile = GLProfile.getDefault();
@@ -33,17 +37,25 @@ public class TerrainGen {
         colors.put(0.80, Color.decode("#CCCCCC"));
         colors.put(0.90, Color.decode("#EEEEFF"));
 
-        List<ControlOption> controls = new ArrayList<>();
-        controls.add(new ControlOption("Island 'a' param", 1.0f));
-        controls.add(new ControlOption("Island 'b' param", 1.0f));
-        controls.add(new ControlOption("Island 'c' param", 1.0f));
-
         int seed = (int) (Math.random() * 100000);
         INoiseGenerator noiseGenerator = new PerlinNoiseGenerator(seed);
-        MeshGenerator meshGenerator = new MeshGenerator(200, noiseGenerator);
+        meshGenerator = new MeshGenerator(400, noiseGenerator);
+
+        controls = new ArrayList<>();
+        controls.add(new ControlOption("Island 'b' param", 1.0f, this, 0.0f, 2.0f));
+        controls.add(new ControlOption("Island 'c' param", 1.0f, this, 0.0f, 2.0f));
+        controls.add(new ControlOption("Layer 1 amplitude", 30.0f, this, 1.0f, 40.0f));
+        controls.add(new ControlOption("Layer 1 frequency", 2.0f, this, 1.0f, 30.0f));
+        controls.add(new ControlOption("Layer 2 amplitude", 18.0f, this, 1.0f, 40.0f));
+        controls.add(new ControlOption("Layer 2 frequency", 4.0f, this, 1.0f, 30.0f));
+        controls.add(new ControlOption("Layer 3 amplitude", 15.0f, this, 1.0f, 40.0f));
+        controls.add(new ControlOption("Layer 3 frequency", 8.0f, this, 1.0f, 30.0f));
+        controls.add(new ControlOption("Layer 4 amplitude", 12.0f, this, 1.0f, 40.0f));
+        controls.add(new ControlOption("Layer 4 frequency", 16.0f, this, 1.0f, 30.0f));
 
         MeshRenderer meshRenderer = new MeshRenderer(colors);
-        EventListener ev = new EventListener(meshRenderer, meshGenerator.generate(controls), meshGenerator);
+        ev = new EventListener(meshRenderer, meshGenerator.generate(controls));
+
 
         CameraControls cameraControls = new CameraControls(ev);
 
@@ -77,4 +89,8 @@ public class TerrainGen {
         animator.start();
     }
 
+    @Override
+    public void onParameterUpdate() {
+        ev.setMesh(meshGenerator.generate(controls));
+    }
 }
